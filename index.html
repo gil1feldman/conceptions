@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>טופס הוספת ידיעה</title>
+  <style>
+    body { font-family: sans-serif; direction: rtl; padding: 20px; max-width: 600px; margin: auto; }
+    label { display: block; margin-top: 15px; }
+    textarea { width: 100%; height: 100px; }
+    select, input, textarea { width: 100%; padding: 8px; }
+    button { margin-top: 20px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+  <h2>טופס הוספת ידיעה</h2>
+  <form id="newsForm">
+    <label>קישור לידיעה:
+      <input type="url" name="link" required>
+    </label>
+
+    <label>הנושא הרלוונטי:
+      <select name="topic" required>
+        <option value="">בחר נושא...</option>
+        <option value="פוליטיקה">פוליטיקה</option>
+        <option value="כלכלה">כלכלה</option>
+        <option value="צבא וביטחון">צבא וביטחון</option>
+        <!-- בהמשך נטען את הרשימה מגיליון -->
+      </select>
+    </label>
+
+    <label>השפעת הידיעה:
+      <select name="impact" required>
+        <option value="מחליש מאוד">מחליש מאוד</option>
+        <option value="מחליש">מחליש</option>
+        <option value="מחליש קצת">מחליש קצת</option>
+        <option value="מחזק קצת">מחזק קצת</option>
+        <option value="מחזק">מחזק</option>
+        <option value="מחזק מאוד">מחזק מאוד</option>
+      </select>
+    </label>
+
+    <label>מוסיף הידיעה:
+      <input type="text" name="submitter">
+    </label>
+
+    <label>הערות:
+      <textarea name="comments"></textarea>
+    </label>
+
+    <button type="submit">שלח</button>
+    <p id="responseMessage" style="color: green;"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById('newsForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      fetch('YOUR_SCRIPT_URL_HERE', {
+        method: 'POST',
+        body: data
+      })
+      .then(response => response.text())
+      .then(result => {
+        document.getElementById('responseMessage').innerText = 'נשלח בהצלחה!';
+        form.reset();
+      })
+      .catch(error => {
+        document.getElementById('responseMessage').innerText = 'אירעה שגיאה בשליחה';
+        console.error('Error!', error.message);
+      });
+    });
+  </script>
+</body>
+</html>
