@@ -154,12 +154,12 @@
         select.innerHTML = '<option value="">נושאים לא נטענו</option>';
       });
 
-    // שליחת הטופס
+    // שליחת הטופס לגיליון
     document.getElementById('newsForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(this);
 
-      fetch('SCRIPT_URL_HERE', {
+      fetch('https://script.google.com/macros/s/AKfycbxsIFNrhZZpOim8tD2POJcjAmIxjbf80Jo6mBqY9ngjkFKQh4tsM6lMW5Wk5AkFulfU/exec', {
         method: 'POST',
         body: formData
       })
