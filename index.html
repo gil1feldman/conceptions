@@ -96,11 +96,8 @@
   <div class="container">
     <form id="newsForm">
       <label>הנושא הרלוונטי:
-        <select name="topic" required>
-          <option value="">בחר נושא...</option>
-          <option value="פוליטיקה">פוליטיקה</option>
-          <option value="כלכלה">כלכלה</option>
-          <option value="צבא וביטחון">צבא וביטחון</option>
+        <select name="topic" id="topicSelect" required>
+          <option value="">טוען נושאים...</option>
         </select>
       </label>
 
@@ -133,6 +130,26 @@
   </div>
 
   <script>
+    // טעינת רשימת הנושאים מהגיליון
+    fetch('https://script.google.com/macros/s/AKfycbxRQUswQjULh_DD2E7zwPxs3MT9UINtqIQP_fCFKKy2Rosb9YpP47dfxTtN0GOnyIyF/exec')
+      .then(response => response.json())
+      .then(topics => {
+        const select = document.getElementById('topicSelect');
+        select.innerHTML = '<option value="">בחר נושא...</option>';
+        topics.forEach(topic => {
+          const option = document.createElement('option');
+          option.value = topic;
+          option.textContent = topic;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('שגיאה בטעינת נושאים:', error);
+        const select = document.getElementById('topicSelect');
+        select.innerHTML = '<option value="">נושאים לא נטענו</option>';
+      });
+
+    // שליחת הטופס
     document.getElementById('newsForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(this);
