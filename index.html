@@ -29,13 +29,14 @@
 
     .info-button {
       position: absolute;
-      top: 10px;
-      left: 15px;
+      top: 12px;
+      left: 10px;
       background: transparent;
       border: none;
       color: white;
-      font-size: 20px;
+      font-size: 22px;
       cursor: pointer;
+      padding: 0;
     }
 
     .modal {
@@ -141,9 +142,9 @@
       }
 
       .info-button {
-        font-size: 18px;
-        top: 8px;
-        left: 10px;
+        font-size: 20px;
+        top: 10px;
+        left: 8px;
       }
     }
   </style>
@@ -253,7 +254,7 @@
       });
     });
 
-    // סגירה אם לוחצים מחוץ למודל
+    // סגירת המידע בלחיצה מחוץ לחלון
     window.onclick = function(event) {
       const modal = document.getElementById('infoModal');
       if (event.target === modal) {
