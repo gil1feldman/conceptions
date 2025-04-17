@@ -2,7 +2,7 @@
 <html lang="he">
 <head>
   <meta charset="UTF-8">
-  <title>מערכת הוספת ידיעות - המצב הנתון</title>
+  <title>תיעוד ידיעות חשובות</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,24 +89,18 @@
 </head>
 <body>
   <div class="banner">
-    <img src="https://raw.githubusercontent.com/giladfi/public/main/logo-matzav-netun.png" alt="הלוגו של המצב הנתון" class="logo">
-    <h1>מערכת הוספת ידיעות</h1>
+    <img src="https://github.com/gil1feldman/my-form/blob/main/logo_current_situation.png?raw=true" alt="הלוגו של המצב הנתון" class="logo">
+    <h1>תיעוד ידיעות חשובות במאבק על הדמוקרטיה הישראלית</h1>
   </div>
 
   <div class="container">
-    <h2>טופס הוספת ידיעה</h2>
     <form id="newsForm">
-      <label>קישור לידיעה:
-        <input type="url" name="link" required placeholder="הדבק כאן את הקישור">
-      </label>
-
       <label>הנושא הרלוונטי:
         <select name="topic" required>
           <option value="">בחר נושא...</option>
           <option value="פוליטיקה">פוליטיקה</option>
           <option value="כלכלה">כלכלה</option>
           <option value="צבא וביטחון">צבא וביטחון</option>
-          <!-- ניתן להוסיף דינאמית בעתיד -->
         </select>
       </label>
 
@@ -119,6 +113,10 @@
           <option value="מחזק">מחזק</option>
           <option value="מחזק מאוד">מחזק מאוד</option>
         </select>
+      </label>
+
+      <label>קישור לידיעה:
+        <input type="url" name="link" required placeholder="הדבק כאן את הקישור">
       </label>
 
       <label>מוסיף הידיעה:
