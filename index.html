@@ -143,7 +143,12 @@
       font-size: 16px;
     }
 
-    button:hover {
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
       background-color: #002855;
     }
 
@@ -151,6 +156,28 @@
       margin-top: 20px;
       font-weight: bold;
       text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    #responseMessage.success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    #responseMessage.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 480px) {
@@ -187,7 +214,6 @@
     <h1>תיעוד ידיעות חשובות במאבק על הדמוקרטיה הישראלית</h1>
   </div>
 
-  <!-- חלון מידע -->
   <div id="infoModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="document.getElementById('infoModal').style.display='none'">✖</span>
@@ -242,13 +268,12 @@
         <textarea name="comments" placeholder="הקלד כאן כל דבר נוסף..."></textarea>
       </label>
 
-      <button type="submit">שלח</button>
+      <button type="submit" id="submitBtn">שלח</button>
       <p id="responseMessage"></p>
     </form>
   </div>
 
   <script>
-    // טעינת נושאים מהגיליון
     fetch('https://script.google.com/macros/s/AKfycbxRQUswQjULh_DD2E7zwPxs3MT9UINtqIQP_fCFKKy2Rosb9YpP47dfxTtN0GOnyIyF/exec')
       .then(response => response.json())
       .then(topics => {
@@ -267,10 +292,16 @@
         select.innerHTML = '<option value="">נושאים לא נטענו</option>';
       });
 
-    // שליחת הטופס
     document.getElementById('newsForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const formData = new FormData(this);
+      const form = this;
+      const formData = new FormData(form);
+      const responseEl = document.getElementById('responseMessage');
+      const inputs = form.querySelectorAll('input, select, textarea, button');
+
+      inputs.forEach(el => el.disabled = true);
+      responseEl.style.display = 'none';
+      responseEl.className = '';
 
       fetch('https://script.google.com/macros/s/AKfycbxsIFNrhZZpOim8tD2POJcjAmIxjbf80Jo6mBqY9ngjkFKQh4tsM6lMW5Wk5AkFulfU/exec', {
         method: 'POST',
@@ -278,16 +309,26 @@
       })
       .then(response => response.text())
       .then(result => {
-        document.getElementById('responseMessage').innerText = 'הטופס נשלח בהצלחה!';
-        document.getElementById('newsForm').reset();
+        responseEl.innerText = '✅ הטופס נשלח בהצלחה!';
+        responseEl.className = 'success';
+        responseEl.style.display = 'block';
+        form.reset();
+        responseEl.scrollIntoView({ behavior: 'smooth' });
+
+        setTimeout(() => {
+          inputs.forEach(el => el.disabled = false);
+        }, 3000);
       })
       .catch(error => {
-        document.getElementById('responseMessage').innerText = 'אירעה שגיאה בשליחה. נסה שוב.';
+        responseEl.innerText = '❌ אירעה שגיאה בשליחה. נסה שוב.';
+        responseEl.className = 'error';
+        responseEl.style.display = 'block';
+        responseEl.scrollIntoView({ behavior: 'smooth' });
+        inputs.forEach(el => el.disabled = false);
         console.error(error);
       });
     });
 
-    // סגירת חלון מידע בלחיצה על הרקע
     window.onclick = function(event) {
       const modal = document.getElementById('infoModal');
       if (event.target === modal) {
